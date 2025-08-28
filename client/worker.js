@@ -5,7 +5,7 @@ self.addEventListener('push', e => {
     console.log('Push Received...');
     self.registration.showNotification(data.title, {
         body: 'Notified by Raul Gonzalez',
-        tag: "2",
+        tag: "3",
         icon: 'https://www.blinn.edu/_files/images/ico/favicon.ico'
     });
 });
