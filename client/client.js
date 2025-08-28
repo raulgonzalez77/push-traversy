@@ -1,45 +1,40 @@
 const publicVapidKey = 'BKYU9T90H5yWG8LLb1QAXwqXacFU3mATMBLix-dCXLaNxE5EA5YsK7Ey7Lz9AoQ0LSTS46FLJYdoPGg2Eh3KPwc';
 
 // Check for service worker
-
-if('serviceWorker' in navigator) {
+if ("serviceWorker" in navigator) {
     send().catch(err => console.error(err));
-}
-
-// Register SW, REgister Push, Send PUsh
-async function send() {
-
-    //Regiser Service Worker
-console.log('Registering service worker ...');
-
-const register = await navigator.serviceWorker.register('/worker.js', {
-    scope: '/'
-});
-console.log('Service Worker Register...');
-
-// Register Push
-console.log('Register Push...');
-const subscription = await register.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-});
-console.log('Push Registered...');
-
-// Send Push Notification
-console.log('Sending Push...');
-await fetch('/subscribe', {
-    method: 'POST',
-    body: JSON.stringify(subscription),
-    headers: {
-        'content-type': 'application/json'
-    }
-});
-console.log('Push Sent...');
-
-
-}
-
-function urlBase64ToUint8Array(base64String) {
+  }
+  
+  // Register SW, Register Push, Send Push
+  async function send() {
+    // Register Service Worker
+    console.log("Registering service worker...");
+    const register = await navigator.serviceWorker.register("/worker.js", {
+      scope: "/"
+    });
+    console.log("Service Worker Registered...");
+  
+    // Register Push
+    console.log("Registering Push...");
+    const subscription = await register.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    });
+    console.log("Push Registered...");
+  
+    // Send Push Notification
+    console.log("Sending Push...");
+    await fetch("/subscribe", {
+      method: "POST",
+      body: JSON.stringify(subscription),
+      headers: {
+        "content-type": "application/json"
+      }
+    });
+    console.log("Push Sent...");
+  }
+  
+  function urlBase64ToUint8Array(base64String) {
     const padding = "=".repeat((4 - base64String.length % 4) % 4);
     const base64 = (base64String + padding)
       .replace(/\-/g, "+")
@@ -53,4 +48,3 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
   }
-    
